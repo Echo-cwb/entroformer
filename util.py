@@ -11,13 +11,13 @@ from logging import handlers
 def get_parser():
     parser = argparse.ArgumentParser(description='PyTorch Compression')
     # Base configure
-    parser.add_argument("--na", type=str, default="balle", help="Network architecture")
-    parser.add_argument("--channels", type=int, default=128, help="Channels in Main Auto-encoder.")
-    parser.add_argument("--last_channels", type=int, default=128, help="Channels of compression feature.")
-    parser.add_argument("--hyper_channels", type=int, default=128, help="Channels of hyperprior feature.")
+    parser.add_argument("--na", type=str, default="bidirectional", help="Network architecture")
+    parser.add_argument("--channels", type=int, default=192, help="Channels in Main Auto-encoder.")
+    parser.add_argument("--last_channels", type=int, default=384, help="Channels of compression feature.")
+    parser.add_argument("--hyper_channels", type=int, default=192, help="Channels of hyperprior feature.")
     parser.add_argument("--loss_type", type=str, default="mse", help="loss function : mse, ms-ssim or perceptual")
     parser.add_argument("--distribution", type=str, default="gauss", help="distribution type: laplace or gauss")
-    parser.add_argument("--num_parameter", type=int, default=3,
+    parser.add_argument("--num_parameter", type=int, default=2,
                         help="distribution parameter num: 1 for sigma, 2 for mean&sigma, 3 for mean&sigma&pi")
     parser.add_argument("--quant", type=str, default="noise", help="quantize type: noise or ste")
     parser.add_argument("--norm", type=str, default="GDN", help="Normalization Type: GDN, GSDN")
@@ -25,10 +25,10 @@ def get_parser():
     parser.add_argument("--alpha", type=float, default=0.01, help="weight for reconstruction loss")
 
     # Training and testing configure
-    parser.add_argument("--mode", type=str, default="train", help="Train or Test.")
+    parser.add_argument("--mode", type=str, default="compress", help="Train or Test.")
     parser.add_argument('--train_dir', type=str, help='Train image dir.')
     parser.add_argument('--test_dir', type=str, help='Test image dir.')
-    parser.add_argument('--input_file', type=str, help='File to compress or decompress.')
+    parser.add_argument('--input_file', type=str,  default="./images/test4.png", help='File to compress or decompress.')
     parser.add_argument("--batchSize", type=int, default=8, help="training batch size")
     parser.add_argument("--testBatchSize", type=int, default=1, help="testing batch size")
     parser.add_argument("--patchSize", type=int, default=256, help="Training Image size.")
@@ -41,7 +41,7 @@ def get_parser():
     parser.add_argument("--seed", type=int, default=100001431, help="random seed to use.")
     parser.add_argument("--table_range", type=int, default=128, help="range of feature")
     parser.add_argument("--model_prefix", type=str, default="./", help="")
-    parser.add_argument("--model_pretrained", type=str, default="", help="pre-trained model")
+    parser.add_argument("--model_pretrained", type=str, default="/content/drive/MyDrive/Entroformer/checkpoints/entroformer_parallel_lambda0.01.pth", help="pre-trained model")
     parser.add_argument("--epoch_pretrained", type=int, default=0, help="epoch of pre-model")
 
     # Configure for Transfomer Entropy Model
@@ -52,12 +52,12 @@ def get_parser():
     parser.add_argument("--dim_head", type=int, default=64, help="Dimension of transformer head.")
     parser.add_argument("--trans_no_norm", dest="trans_norm", action="store_false", default=True, help="Use LN in transformer.")
     parser.add_argument("--dropout", type=float, default=0., help="Dropout ratio.")
-    parser.add_argument("--position_num", type=int, default=6, help="Position information num.")
+    parser.add_argument("--position_num", type=int, default=7, help="Position information num.")
     parser.add_argument("--att_noscale", dest="att_scale", action="store_false", default=True, help="Use Scale in Attention.")
     parser.add_argument("--no_rpe_shared", dest="rpe_shared", action="store_false", default=True, help="Position Shared in layers.")
     parser.add_argument("--scale", type=int, default=2, help="Downscale of hyperprior of CiT.")
     parser.add_argument("--mask_ratio", type=float, default=0., help="Pretrain model: mask ratio.")
-    parser.add_argument("--attn_topk", type=int, default=-1, help="Top K filter for Self-attention.")    
+    parser.add_argument("--attn_topk", type=int, default=32, help="Top K filter for Self-attention.")    
     parser.add_argument("--grad_norm_clip", type=float, default=0., help="grad_norm_clip.")
     parser.add_argument("--warmup", type=float, default=0.05, help="Warm up.")
     parser.add_argument("--segment", type=int, default=1, help="Segment for Large Patchsize.")    
