@@ -40,8 +40,8 @@ def get_parser():
     parser.add_argument("--threads", type=int, default=4, help="threads for data loader")
     parser.add_argument("--seed", type=int, default=100001431, help="random seed to use.")
     parser.add_argument("--table_range", type=int, default=128, help="range of feature")
-    parser.add_argument("--model_prefix", type=str, default="/content/drive/MyDrive/Entroformer/checkpoints/entroformer_parallel_lambda0.01.pth", help="")
-    parser.add_argument("--model_pretrained", type=str, default="/content/drive/MyDrive/Entroformer/checkpoints/entroformer_parallel_lambda0.01.pth", help="pre-trained model")
+    parser.add_argument("--model_prefix", type=str, default="/content/drive/MyDrive/Entroformer/checkpoints/iclr22_entroformer/entroformer_parallel_lambda0.001.pth", help="")
+    parser.add_argument("--model_pretrained", type=str, default="/content/drive/MyDrive/Entroformer/checkpoints/iclr22_entroformer/entroformer_parallel_lambda0.001.pth", help="pre-trained model")
     parser.add_argument("--epoch_pretrained", type=int, default=0, help="epoch of pre-model")
 
     # Configure for Transfomer Entropy Model
